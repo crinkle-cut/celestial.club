@@ -3475,8 +3475,8 @@ local Library = {}; do
             for Index, Value in next, Value do
                 if Dropdown.Options[Value] then
                     table.insert(Dropdown.Value, Value)
-                    Library:RemoveFromRegistry(Dropdown.Options[Index].Text);
-                    Library:AddToRegistry(Dropdown.Options[Index].Text, {
+                    Library:RemoveFromRegistry(Dropdown.Options[Value].Text);
+                    Library:AddToRegistry(Dropdown.Options[Value].Text, {
                         TextColor3 = "Accent";
                     })
                     game:GetService("TweenService"):Create(Dropdown.Options[Value].Text, TweenInfo.new(0.13, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {TextColor3 = Library.Text}):Play();
@@ -3800,6 +3800,5 @@ local Library = {}; do
         return Listbox;
     end;
 end;
-
 
 return Library;
