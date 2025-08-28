@@ -1975,7 +1975,7 @@ local Library = {}; do
             Name = Data.Name;
             Min = Data.Min;
             Max = Data.Max;
-            Suffix = Data.Sub;
+            Suffix = Data.Sub or "";
             State = Data.Default;
             Flag = Data.Flag;
             Value = 0;
@@ -3800,5 +3800,6 @@ local Library = {}; do
         return Listbox;
     end;
 end;
+
 
 return Library;
