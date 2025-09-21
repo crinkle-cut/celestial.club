@@ -885,7 +885,7 @@ local Library = {}; do
         }
 
         Library:Connect(game:GetService("UserInputService").InputBegan,  function(Input)
-            if Input.KeyCode == Library.Key or Input.KeyCode == Enum.KeyCode.RightShift then
+            if Input.KeyCode == Library.Key then
                 Library:SetOpen(not Library.Open);
             end;
         end);
@@ -1975,7 +1975,7 @@ local Library = {}; do
             Name = Data.Name;
             Min = Data.Min;
             Max = Data.Max;
-            Suffix = Data.Sub or "";
+            Suffix = Data.Sub;
             State = Data.Default;
             Flag = Data.Flag;
             Value = 0;
@@ -2112,7 +2112,11 @@ local Library = {}; do
         end;
 
         local function InputSlide(input)
-            local SizeX = (input.Position.X - Objects["realslider"].AbsolutePosition.X) / Objects["realslider"].AbsoluteSize.X;
+            local sliderSize = Objects["realslider"].AbsoluteSize.X;
+            if sliderSize <= 0 then return end; -- Prevent division by zero
+
+            local SizeX = (input.Position.X - Objects["realslider"].AbsolutePosition.X) / sliderSize;
+            SizeX = math.clamp(SizeX, 0, 1); -- Clamp to valid range
             local value = ((Slider.Max - Slider.Min) * SizeX) + Slider.Min;
             Set(value);
         end;
@@ -3475,8 +3479,8 @@ local Library = {}; do
             for Index, Value in next, Value do
                 if Dropdown.Options[Value] then
                     table.insert(Dropdown.Value, Value)
-                    Library:RemoveFromRegistry(Dropdown.Options[Value].Text);
-                    Library:AddToRegistry(Dropdown.Options[Value].Text, {
+                    Library:RemoveFromRegistry(Dropdown.Options[Index].Text);
+                    Library:AddToRegistry(Dropdown.Options[Index].Text, {
                         TextColor3 = "Accent";
                     })
                     game:GetService("TweenService"):Create(Dropdown.Options[Value].Text, TweenInfo.new(0.13, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {TextColor3 = Library.Text}):Play();
@@ -3550,8 +3554,8 @@ local Library = {}; do
             Library:Connect(OptionInsts["option"].MouseButton1Down, function()
                 Option.IsSelected = not Option.IsSelected;
                 if Option.IsSelected then
-                    Library:RemoveFromRegistry(Option.Text);
-                    Library:AddToRegistry(Option.Text, {
+                    Library:RemoveFromRegistry(Dropdown.Options[Index].Text);
+                    Library:AddToRegistry(Dropdown.Options[Index].Text, {
                         TextColor3 = "Accent";
                     })
                     game:GetService("TweenService"):Create(OptionInsts["text"], TweenInfo.new(0.13, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {TextColor3 = Library.Text}):Play();
@@ -3571,8 +3575,8 @@ local Library = {}; do
 
                         Dropdown:Set(Dropdown.Value);
                     end);
-                    Library:RemoveFromRegistry(Option.Text);
-                    Library:AddToRegistry(Option.Text, {
+                    Library:RemoveFromRegistry(Dropdown.Options[Index].Text);
+                    Library:AddToRegistry(Dropdown.Options[Index].Text, {
                         TextColor3 = "Text";
                     })
                     game:GetService("TweenService"):Create(OptionInsts["text"], TweenInfo.new(0.13, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {TextColor3 = Library.Text}):Play();
