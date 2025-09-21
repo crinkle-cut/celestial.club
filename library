@@ -2112,11 +2112,7 @@ local Library = {}; do
         end;
 
         local function InputSlide(input)
-            local sliderSize = Objects["realslider"].AbsoluteSize.X;
-            if sliderSize <= 0 then return end; -- Prevent division by zero
-
-            local SizeX = (input.Position.X - Objects["realslider"].AbsolutePosition.X) / sliderSize;
-            SizeX = math.clamp(SizeX, 0, 1); -- Clamp to valid range
+            local SizeX = (input.Position.X - Objects["realslider"].AbsolutePosition.X) / Objects["realslider"].AbsoluteSize.X;
             local value = ((Slider.Max - Slider.Min) * SizeX) + Slider.Min;
             Set(value);
         end;
